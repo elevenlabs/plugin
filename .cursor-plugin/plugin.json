@@ -1,0 +1,13 @@
+{
+  "name": "elevenlabs",
+  "displayName": "ElevenLabs",
+  "version": "0.1.0",
+  "description": "ElevenLabs voice AI for Cursor — text-to-speech, speech-to-text, voice agents, music generation, sound effects, and direct API access via MCP.",
+  "author": {
+    "name": "ElevenLabs",
+    "email": "support@elevenlabs.io"
+  },
+  "license": "MIT",
+  "keywords": ["elevenlabs", "text-to-speech", "speech-to-text", "voice", "audio", "ai", "tts", "stt"],
+  "logo": "assets/logo.png"
+}
