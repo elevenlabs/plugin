@@ -31,7 +31,7 @@ API keys are securely stored in `~/.agents/api_keys.json`.
 elevenlabs agents init
 
 # Create an agent from template
-elevenlabs agents add "My Assistant" --template default
+elevenlabs agents add "My Assistant" --template complete
 
 # Push to ElevenLabs platform
 elevenlabs agents push
@@ -42,7 +42,7 @@ elevenlabs agents push
 For programmatic access and client-side integration:
 
 ```bash
-npm install @elevenlabs/elevenlabs-js
+npm install @elevenlabs/elevenlabs-js@latest
 ```
 
 > **Important:** Always use `@elevenlabs/elevenlabs-js`. The old `elevenlabs` npm package (v1.x) is deprecated and should not be used.
@@ -67,19 +67,45 @@ If you have old packages installed, remove them:
 npm uninstall elevenlabs
 
 # Install the current packages
-npm install @elevenlabs/elevenlabs-js
+npm install @elevenlabs/elevenlabs-js@latest
 
-# For client-side/browser usage, also install:
-npm install @elevenlabs/client  # Browser client
-npm install @elevenlabs/react   # React hooks
+# For browser apps, install the package that matches your UI layer:
+npm install @elevenlabs/client@latest  # Vanilla JavaScript in the browser
+npm install @elevenlabs/react@latest   # React on the web
 ```
+
+### Temporary LiveKit WebSocket pin
+
+There is a known LiveKit server compatibility issue where WebRTC startup may hit the underlying LiveKit WebSocket path `/rtc/v1` and return 404, causing delays or failed sessions in React, Next.js, Electron, and other browser clients. Until the upstream issue is resolved, pin `livekit-client` to `2.16.1` when using `connectionType: "webrtc"` or when logs mention `wss://livekit.rtc.elevenlabs.io/rtc/v1`:
+
+```json
+{
+  "overrides": {
+    "livekit-client": "2.16.1"
+  }
+}
+```
+
+This belongs in the app's `package.json`. Apply it when logs include `/rtc/v1` 404s, `v1 RTC path not found`, or `could not establish pc connection`. Remove the override once the ElevenLabs LiveKit server or SDK no longer requires the workaround.
 
 **Import changes:**
 ```javascript
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import { Conversation } from "@elevenlabs/client";
-import { useConversation } from "@elevenlabs/react";
+import {
+  ConversationProvider,
+  useConversationControls,
+  useConversationStatus,
+} from "@elevenlabs/react";
 ```
+
+`@elevenlabs/react` re-exports `@elevenlabs/client`, so React apps usually only need
+`@elevenlabs/react`. Wrap hook consumers in `ConversationProvider` and prefer granular hooks
+such as `useConversationControls` and `useConversationStatus`; `useConversation` remains
+available as the convenience all-in-one hook.
+
+Use `@elevenlabs/react-native` for React Native projects with the same provider-and-hooks API;
+only the import path changes.
 
 ## Python
 
@@ -88,7 +114,7 @@ pip install elevenlabs
 ```
 
 ```python
-from elevenlabs.client import ElevenLabs
+from elevenlabs import ElevenLabs
 
 # Option 1: Environment variable (recommended)
 # Set ELEVENLABS_API_KEY in your environment
@@ -112,7 +138,7 @@ Include in requests via the `xi-api-key` header:
 curl -X POST "https://api.elevenlabs.io/v1/convai/agents/create" \
   -H "xi-api-key: $ELEVENLABS_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"name": "My Agent", "prompt": {"prompt": "You are helpful.", "llm": "gpt-4o-mini"}}'
+  -d '{"name": "My Agent", "conversation_config": {"agent": {"prompt": {"prompt": "You are helpful.", "llm": "gemini-2.0-flash"}}, "tts": {"voice_id": "JBFqnCBsd6RMkjVDRZzb"}}}'
 ```
 
 ## Getting an API Key

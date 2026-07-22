@@ -47,10 +47,10 @@ export ELEVENLABS_API_KEY="your-api-key"
 Include in requests via the `xi-api-key` header:
 
 ```bash
-curl -X POST "https://api.elevenlabs.io/v1/sound-generation" \
+curl -X POST "https://api.elevenlabs.io/v1/audio-isolation" \
   -H "xi-api-key: $ELEVENLABS_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Thunder rumbling in the distance"}' --output output.mp3
+  -F "audio=@noisy.mp3" \
+  --output clean.mp3
 ```
 
 ## Getting an API Key

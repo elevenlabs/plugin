@@ -6,10 +6,10 @@ Stream audio from the browser directly to ElevenLabs for real-time transcription
 
 ```bash
 # React
-npm install @elevenlabs/react @elevenlabs/elevenlabs-js
+npm install @elevenlabs/react@latest @elevenlabs/elevenlabs-js@latest
 
 # JavaScript
-npm install @elevenlabs/client @elevenlabs/elevenlabs-js
+npm install @elevenlabs/client@latest @elevenlabs/elevenlabs-js@latest
 ```
 
 > **Warning:** Always use the `@elevenlabs/*` namespace for client-side packages.
@@ -36,13 +36,15 @@ app.get("/scribe-token", yourAuthMiddleware, async (req, res) => {
 ## React Implementation
 
 ```typescript
-import { useScribe } from "@elevenlabs/react";
+import { useScribe, CommitStrategy } from "@elevenlabs/react";
 
 function TranscriptionComponent() {
   const [transcript, setTranscript] = useState("");
 
   const scribe = useScribe({
     modelId: "scribe_v2_realtime",
+    commitStrategy: CommitStrategy.VAD, // Auto-commit on silence for mic input
+    includeLanguageDetection: true,
     onPartialTranscript: (data) => {
       // Show live feedback as user speaks
       console.log("Partial:", data.text);
@@ -82,6 +84,28 @@ function TranscriptionComponent() {
 }
 ```
 
+> **Important:** The default commit strategy is `CommitStrategy.MANUAL`, which requires you to call `scribe.commit()` explicitly. For microphone input, always set `CommitStrategy.VAD` so the server auto-commits when silence is detected. Without this, committed transcripts will never fire and the connection may drop.
+
+### `scribe.status` Values
+
+| Status | Meaning |
+|--------|---------|
+| `"disconnected"` | No active connection |
+| `"connecting"` | Connection is being established |
+| `"connected"` | Connected and ready to receive audio |
+| `"transcribing"` | Actively processing speech (transitions from `"connected"` when audio is detected or VAD commits) |
+| `"error"` | An error occurred |
+
+> **Important:** When checking if the session is active, always check for both `"connected"` and `"transcribing"`. The status transitions to `"transcribing"` during speech processing, so checking only `"connected"` will cause UI elements (buttons, waveforms, indicators) to incorrectly reset mid-session.
+
+```typescript
+// Correct - handles both active states
+const isListening = scribe.status === "connected" || scribe.status === "transcribing";
+
+// Wrong - will flicker/reset when VAD commits
+const isListening = scribe.status === "connected";
+```
+
 ## JavaScript Implementation
 
 ```typescript
@@ -95,6 +119,9 @@ async function startTranscription() {
     token,
     modelId: "scribe_v2_realtime",
     includeTimestamps: true,
+    includeLanguageDetection: true,
+    keyterms: ["ElevenLabs", "Scribe"],
+    noVerbatim: true,
     microphone: {
       echoCancellation: true,
       noiseSuppression: true,
@@ -131,6 +158,8 @@ async function startTranscription() {
   return connection;
 }
 ```
+
+`keyterms` biases realtime recognition toward important terms. `noVerbatim` removes filler words, false starts, and disfluencies from committed transcripts. `includeLanguageDetection` returns the detected language code on committed transcript events that include timestamps.
 
 ## Manual Audio Chunking
 
