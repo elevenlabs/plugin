@@ -1,6 +1,6 @@
 # ElevenLabs Plugin
 
-Voice AI capabilities for your coding agent — powered by [ElevenLabs](https://elevenlabs.io). Works with **Cursor**, **Claude Code**, and **OpenAI Codex**.
+Voice AI capabilities for your coding agent — powered by [ElevenLabs](https://elevenlabs.io). Works with **Cursor**, **Claude Code**, **OpenAI Codex**, and any client implementing the open [Agent Plugins](https://agent-plugins.org) standard (v1.0.0).
 
 ## What's included
 
@@ -22,7 +22,7 @@ Skills are synced from the official [elevenlabs/skills](https://github.com/eleve
 
 ### MCP Server
 
-Direct access to the full ElevenLabs API via the [elevenlabs-mcp](https://github.com/elevenlabs/elevenlabs-mcp) server — voice management, audio generation, conversational AI, and more. Configured in [mcp.json](mcp.json).
+Direct access to the full ElevenLabs API via the [elevenlabs-mcp](https://github.com/elevenlabs/elevenlabs-mcp) server — voice management, audio generation, conversational AI, and more. Configured in [mcp.json](mcp.json) (Agent Plugins format; the server reads `ELEVENLABS_API_KEY` from your environment). Cursor uses [.cursor-plugin/mcp.json](.cursor-plugin/mcp.json), which wires the key from the plugin's dashboard configuration instead.
 
 ## Installation
 

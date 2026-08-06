@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "elevenlabs",
+  "version": "0.2.0",
+  "description": "ElevenLabs voice AI — text-to-speech, speech-to-text, voice agents, speech engine, music generation, sound effects, voice changer, voice isolator, and direct API access via MCP.",
+  "author": {
+    "name": "ElevenLabs",
+    "email": "support@elevenlabs.io",
+    "url": "https://elevenlabs.io"
+  },
+  "homepage": "https://elevenlabs.io",
+  "repository": "https://github.com/elevenlabs/plugin",
+  "license": "MIT",
+  "keywords": ["elevenlabs", "text-to-speech", "speech-to-text", "voice", "audio", "ai", "tts", "stt", "voice-agents", "music", "sound-effects"]
+}

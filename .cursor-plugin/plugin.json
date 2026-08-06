@@ -13,7 +13,7 @@
   "keywords": ["elevenlabs", "text-to-speech", "speech-to-text", "voice", "audio", "ai", "tts", "stt", "voice-agents", "music", "sound-effects"],
   "logo": "assets/logo.png",
   "skills": "./skills/",
-  "mcpServers": "./mcp.json",
+  "mcpServers": "./.cursor-plugin/mcp.json",
   "variables": {
     "type": "object",
     "properties": {
