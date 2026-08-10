@@ -4,12 +4,12 @@
     "name": "ElevenLabs",
     "email": "support@elevenlabs.io"
   },
-  "description": "ElevenLabs voice AI plugin — text-to-speech, speech-to-text, voice agents, music, sound effects, and direct API access via MCP.",
+  "description": "ElevenLabs voice AI plugin — text-to-speech, voice agents, and agent management via the ElevenLabs hosted MCP server.",
   "plugins": [
     {
       "name": "elevenlabs",
       "source": "./",
-      "description": "ElevenLabs voice AI — text-to-speech, speech-to-text, voice agents, speech engine, music generation, sound effects, voice changer, voice isolator, and direct API access via MCP.",
+      "description": "ElevenLabs voice AI — text-to-speech, voice agents, and speech engine skills, plus agent management via the ElevenLabs hosted MCP server.",
       "category": "audio",
       "license": "MIT",
       "homepage": "https://elevenlabs.io"

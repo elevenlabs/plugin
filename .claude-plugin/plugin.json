@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "elevenlabs",
   "displayName": "ElevenLabs",
-  "version": "0.2.0",
-  "description": "ElevenLabs voice AI — text-to-speech, speech-to-text, voice agents, speech engine, music generation, sound effects, voice changer, voice isolator, and direct API access via MCP.",
+  "version": "0.3.0",
+  "description": "ElevenLabs voice AI — text-to-speech, voice agents, and speech engine skills, plus agent management via the ElevenLabs hosted MCP server.",
   "author": {
     "name": "ElevenLabs",
     "email": "support@elevenlabs.io",
@@ -12,7 +12,7 @@
   "homepage": "https://elevenlabs.io",
   "repository": "https://github.com/elevenlabs/plugin",
   "license": "MIT",
-  "keywords": ["elevenlabs", "text-to-speech", "speech-to-text", "voice", "audio", "ai", "tts", "stt", "voice-agents", "music", "sound-effects"],
+  "keywords": ["elevenlabs", "text-to-speech", "voice", "audio", "ai", "tts", "voice-agents", "mcp"],
   "skills": "./skills/",
   "mcpServers": "./mcp.json"
 }
