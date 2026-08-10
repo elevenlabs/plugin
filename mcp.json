@@ -6,6 +6,10 @@
       "env": {
         "ELEVENLABS_API_KEY": "${ELEVENLABS_API_KEY}"
       }
+    },
+    "elevenlabs-hosted": {
+      "type": "http",
+      "url": "https://api.elevenlabs.io/v1/mcp"
     }
   }
 }

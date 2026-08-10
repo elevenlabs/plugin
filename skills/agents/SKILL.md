@@ -431,6 +431,16 @@ curl -X POST "https://api.elevenlabs.io/v1/convai/twilio/outbound-call" \
 
 See [Outbound Calls Reference](references/outbound-calls.md) for provider-specific endpoints, configuration overrides, and dynamic variables.
 
+## Iterating on an Existing Agent
+
+Changing an agent that already exists (safe config edits, branches and versions, fixing tools,
+writing tests, authoring procedures) has its own reliability rules. The ElevenLabs hosted MCP
+exposes each operation as a direct tool with per-user OAuth; the same operations are
+available over the SDK/CLI with `xi-api-key`. Read the current config narrowly with `get_agent`
+before changing anything, apply config edits as a partial `update_agent` patch (never a full
+overwrite), and stage risky changes on a branch. See [Iterating on an agent](references/iterating.md)
+for the full playbook.
+
 ## Managing Agents
 
 ### Using CLI (Recommended)
@@ -503,6 +513,7 @@ Common errors: **401** (invalid key), **404** (not found), **422** (invalid conf
 ## References
 
 - [Installation Guide](references/installation.md) - SDK setup and migration
+- [Iterating on an agent](references/iterating.md) - Safe config edits, branches/versions, tools, tests, procedures via the ElevenLabs hosted MCP
 - [Agent Configuration](references/agent-configuration.md) - All config options and CRUD examples
 - [Client Tools](references/client-tools.md) - Webhook, client, and system tools
 - [Widget Embedding](references/widget-embedding.md) - Website integration

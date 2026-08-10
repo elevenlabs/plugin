@@ -20,9 +20,13 @@ Voice AI capabilities for your coding agent — powered by [ElevenLabs](https://
 
 Skills are synced from the official [elevenlabs/skills](https://github.com/elevenlabs/skills) repository.
 
-### MCP Server
+### MCP Servers
 
-Direct access to the full ElevenLabs API via the [elevenlabs-mcp](https://github.com/elevenlabs/elevenlabs-mcp) server — voice management, audio generation, conversational AI, and more. Configured in [mcp.json](mcp.json).
+Direct access to the full ElevenLabs API via the [elevenlabs-mcp](https://github.com/elevenlabs/elevenlabs-mcp) server — voice management, audio generation, conversational AI, and more. Runs locally via `uvx` with your `ELEVENLABS_API_KEY`.
+
+The **ElevenLabs hosted MCP** (`https://api.elevenlabs.io/v1/mcp`) exposes agent-building operations as direct tools — read and edit config, branches and versions, tools, tests, and procedures — authenticated per user over OAuth (browser sign-in on first use; no key to paste). The [agents](skills/agents/SKILL.md) skill and its [iterating](skills/agents/references/iterating.md) reference use it.
+
+Both are configured in [mcp.json](mcp.json).
 
 ## Installation
 
