@@ -9,26 +9,20 @@ Voice AI capabilities for your coding agent — powered by [ElevenLabs](https://
 | Skill | Description |
 |-------|-------------|
 | [text-to-speech](skills/text-to-speech/SKILL.md) | Convert text to natural speech in 70+ languages |
-| [speech-to-text](skills/speech-to-text/SKILL.md) | Transcribe audio with Scribe v2 — diarization, speaker roles, timestamps |
 | [speech-engine](skills/speech-engine/SKILL.md) | Add real-time voice conversations to your own agent runtime |
 | [agents](skills/agents/SKILL.md) | Build real-time voice AI agents and assistants |
-| [music](skills/music/SKILL.md) | Generate music from text prompts and composition plans |
-| [sound-effects](skills/sound-effects/SKILL.md) | Generate sound effects from descriptions |
-| [voice-changer](skills/voice-changer/SKILL.md) | Transform a recording into a different voice, preserving delivery |
-| [voice-isolator](skills/voice-isolator/SKILL.md) | Remove background noise and isolate speech |
-| [setup-api-key](skills/setup-api-key/SKILL.md) | Guided setup and validation of your ElevenLabs API key |
 
 Skills are synced from the official [elevenlabs/skills](https://github.com/elevenlabs/skills) repository.
 
 ### MCP Server
 
-Direct access to the full ElevenLabs API via the [elevenlabs-mcp](https://github.com/elevenlabs/elevenlabs-mcp) server — voice management, audio generation, conversational AI, and more. Configured in [mcp.json](mcp.json) (Agent Plugins format; the server reads `ELEVENLABS_API_KEY` from your environment). Cursor uses [.cursor-plugin/mcp.json](.cursor-plugin/mcp.json), which wires the key from the plugin's dashboard configuration instead.
+The [ElevenLabs hosted MCP server](https://api.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json) (Agent Plugins format).
 
 ## Installation
 
 ### Cursor
 
-Install from the [Cursor marketplace](https://cursor.com/marketplace), or add this repo as a plugin. Set your API key under **Plugins → ElevenLabs → Configure**.
+Install from the [Cursor marketplace](https://cursor.com/marketplace), or add this repo as a plugin. When Cursor connects to the MCP server, sign in with your ElevenLabs account to complete the OAuth flow.
 
 ### Claude Code
 
@@ -55,9 +49,5 @@ npx skills add elevenlabs/skills
 
 ## Requirements
 
-- `ELEVENLABS_API_KEY` environment variable — get a key at [elevenlabs.io](https://elevenlabs.io) (the [setup-api-key](skills/setup-api-key/SKILL.md) skill can walk you through it)
+- An [ElevenLabs](https://elevenlabs.io) account — you'll sign in via OAuth when your agent connects to the MCP server
 - Internet access
-- [uv](https://docs.astral.sh/uv/) for the MCP server:
-  ```bash
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-  ```
