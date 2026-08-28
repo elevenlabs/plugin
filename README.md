@@ -6,13 +6,30 @@ Voice AI capabilities for your coding agent — powered by [ElevenLabs](https://
 
 ### Skills
 
+Skills live in two trees:
+
+- **[skills/general/](skills/general/)** — general ElevenLabs product skills, copied from the official [elevenlabs/skills](https://github.com/elevenlabs/skills) repository. Don't edit these here; contribute upstream instead.
+- **[skills/mcp/](skills/mcp/)** — plugin-native skills that teach agents how to drive the bundled ElevenLabs MCP server.
+
 | Skill | Description |
 |-------|-------------|
-| [text-to-speech](skills/text-to-speech/SKILL.md) | Convert text to natural speech in 70+ languages |
-| [speech-engine](skills/speech-engine/SKILL.md) | Add real-time voice conversations to your own agent runtime |
-| [agents](skills/agents/SKILL.md) | Build real-time voice AI agents and assistants |
+| [agents](skills/general/agents/SKILL.md) | Build real-time voice AI agents and assistants |
+| [dubbing](skills/general/dubbing/SKILL.md) | Dub audio and video into other languages, preserving the original speakers' voices |
+| [music](skills/general/music/SKILL.md) | Generate instrumental tracks, songs with lyrics, background music, and jingles |
+| [setup-api-key](skills/general/setup-api-key/SKILL.md) | Guide users through configuring an ElevenLabs API key |
+| [sound-effects](skills/general/sound-effects/SKILL.md) | Generate sound effects and audio textures from text descriptions |
+| [speech-engine](skills/general/speech-engine/SKILL.md) | Add real-time voice conversations to your own agent runtime |
+| [speech-to-text](skills/general/speech-to-text/SKILL.md) | Transcribe audio to text with Scribe v2 |
+| [text-to-speech](skills/general/text-to-speech/SKILL.md) | Convert text to natural speech in 70+ languages |
+| [voice-changer](skills/general/voice-changer/SKILL.md) | Transform a recording into a different voice, preserving emotion and timing |
+| [voice-isolator](skills/general/voice-isolator/SKILL.md) | Remove background noise and isolate speech from audio |
 
-Skills are synced from the official [elevenlabs/skills](https://github.com/elevenlabs/skills) repository.
+MCP skills:
+
+| Skill | Description |
+|-------|-------------|
+| [agents-platform](skills/mcp/agents-platform/SKILL.md) | Create, configure, test, and deploy voice agents via the bundled MCP server |
+| [creative-studio](skills/mcp/creative-studio/SKILL.md) | Generate speech, images, and video, and transcribe audio via the bundled MCP server |
 
 ### MCP Server
 

@@ -13,6 +13,6 @@
   "repository": "https://github.com/elevenlabs/plugin",
   "license": "MIT",
   "keywords": ["elevenlabs", "text-to-speech", "voice", "audio", "ai", "tts", "voice-agents", "mcp"],
-  "skills": "./skills/",
+  "skills": ["./skills/general", "./skills/mcp"],
   "mcpServers": "./mcp.json"
 }
