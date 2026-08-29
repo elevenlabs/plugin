@@ -86,7 +86,7 @@ conversation_config={
 | `expressive_mode` | bool | `true` | Enable expressive voice generation |
 | `agent_output_audio_format` | string | - | Output audio codec format |
 | `pronunciation_dictionary_locators` | array | - | Pronunciation overrides |
-| `enable_phoneme_tags` | bool | `false` | Parse inline and pronunciation-dictionary SSML phoneme tags into IPA for V3 models |
+| `enable_phoneme_tags` | bool | `true` | Parse inline and pronunciation-dictionary SSML phoneme tags into IPA for V3 models |
 
 **Available TTS models for agents:**
 
@@ -142,6 +142,8 @@ conversation_config={
 | `speculative_turn` | bool | `false` | Enable speculative turn detection |
 | `turn_model` | string | `"turn_v3"` | Turn detection model version: `turn_v2` or `turn_v3` |
 | `interruption_ignore_terms` | array | - | Case-insensitive terms that should not trigger an interruption when spoken by the user |
+| `interruption_ignore_term_languages` | array | - | Language codes whose curated ignore-term lists are enabled |
+| `merge_with_default_ignore_terms` | bool | `false` | Combine curated terms for `interruption_ignore_term_languages` with `interruption_ignore_terms` |
 | `transcribe_on_disabled_interruptions` | bool | `false` | When interruptions are disabled, still transcribe user speech so it can carry into the next turn |
 | `soft_timeout_config` | object | - | Configures a message if user is silent (see below) |
 
@@ -156,6 +158,7 @@ conversation_config={
 | `randomize_fillers` | bool | `false` | Shuffle static soft timeout messages once at the start of each turn |
 | `max_soft_timeouts_per_generation` | int | `1` | Maximum filler messages while waiting for one LLM response (1-8) |
 | `llm_generated_message_prompt_override` | string | - | Custom prompt for LLM-generated filler messages; supports dynamic variables |
+| `disable_until_first_user_message` | bool | `false` | Suppress soft timeout fillers until the conversation receives its first user message |
 
 ## prompt (nested in conversation_config.agent)
 
@@ -183,7 +186,7 @@ conversation_config={
 | `llm` | string | - | Model ID (see LLM providers below) |
 | `temperature` | float | `0` | 0-1, higher = more creative |
 | `max_tokens` | int | `-1` | Max tokens for LLM response (-1 = unlimited) |
-| `reasoning_effort` | string | - | Reasoning depth: `none`, `minimal`, `low`, `medium`, `high`, or `xhigh` (model-dependent) |
+| `reasoning_effort` | string | - | Reasoning depth: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max` (model-dependent) |
 | `thinking_budget` | int | - | Max thinking tokens for reasoning models |
 | `enable_reasoning_summary` | bool | `false` | Request provider reasoning summaries when supported; keep disabled for lower time-to-first-byte |
 | `tools` | array | - | Webhook and client tool definitions |
@@ -193,7 +196,7 @@ conversation_config={
 | `custom_llm` | object | - | Custom LLM endpoint config |
 | `timezone` | string | - | IANA timezone (e.g., `America/New_York`) |
 | `backup_llm_config` | object | - | Fallback LLM configuration |
-| `cascade_timeout_seconds` | number | `8` | Seconds before cascading to backup LLM (2-15) |
+| `cascade_timeout_seconds` | number | `4` | Seconds before cascading to backup LLM (2-15) |
 | `mcp_server_ids` | array | - | MCP server IDs to connect |
 | `native_mcp_server_ids` | array | - | Native MCP server IDs |
 | `ignore_default_personality` | bool | - | Skip default personality instructions |
@@ -207,9 +210,9 @@ to resolve per-environment auth connections at runtime.
 
 | Provider | Model IDs |
 |----------|-----------|
-| OpenAI | `gpt-5`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.4-nano`, `gpt-5.4-2026-03-05`, `gpt-5.4-mini-2026-03-17`, `gpt-5.4-nano-2026-03-17`, `gpt-5.5`, `gpt-5.5-2026-04-23`, `gpt-5-mini`, `gpt-5-nano`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-4.1-nano`, `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo` |
+| OpenAI | `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, `gpt-5.5-2026-04-23`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.4-nano`, `gpt-5.4-2026-03-05`, `gpt-5.4-mini-2026-03-17`, `gpt-5.4-nano-2026-03-17`, `gpt-5`, `gpt-5-mini`, `gpt-5-nano`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-4.1-nano`, `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo` |
 | Anthropic | `claude-opus-4-7`, `claude-sonnet-4-6`, `claude-sonnet-4-5`, `claude-sonnet-4`, `claude-haiku-4-5`, `claude-3-7-sonnet`, `claude-3-5-sonnet`, `claude-3-haiku` |
-| Google | `gemini-3.1-flash-lite-preview`, `gemini-3.1-pro-preview`, `gemini-3-pro-preview`, `gemini-3-flash-preview`, `gemini-2.5-flash`, `gemini-2.5-flash-lite`, `gemini-2.0-flash`, `gemini-2.0-flash-lite` |
+| Google | `gemini-3.7-flash`, `gemini-3.6-flash`, `gemini-3.1-flash-lite-preview`, `gemini-3.1-pro-preview`, `gemini-3-pro-preview`, `gemini-3-flash-preview`, `gemini-2.5-flash`, `gemini-2.5-flash-lite`, `gemini-2.0-flash`, `gemini-2.0-flash-lite` |
 | ElevenLabs | `glm-45-air-fp8`, `qwen3-30b-a3b`, `qwen36-35b-a3b`, `qwen35-35b-a3b`, `qwen35-397b-a17b`, `gpt-oss-120b` (hosted, ultra-low latency) |
 | Custom | `custom-llm` (requires custom_llm config) |
 
@@ -229,7 +232,7 @@ conversation_config={
                 "url": "https://your-llm-endpoint.com/v1/chat/completions",
                 "model_id": "your-model-id",
                 "api_key": {"secret_id": "your-secret-id"},
-                "api_type": "chat_completions"  # or "responses"
+                "api_type": "chat_completions"  # "chat_completions", "responses", or "websocket"
             }
         }
     }
@@ -265,6 +268,7 @@ platform_settings={
 |-------|------|-------------|
 | `summary_language` | string | Language for conversation analysis outputs such as summaries, titles, evaluation rationales, and data collection rationales. If omitted, ElevenLabs infers it from the conversation. |
 | `auto_translate_transcript_to_app_language` | bool | Automatically translate a transcript to the viewer's application language when they open it |
+| `analysis_items` | object or null | Evaluation criteria and data-collection items attached to the agent by reference |
 | `widget` | object | Hosted widget and shareable page configuration. See the widget table below for selected options. |
 | `auth` | object | Authentication and origin restrictions for agent access |
 | `call_limits` | object | Concurrency and daily usage limits |
@@ -273,6 +277,7 @@ platform_settings={
 | `trust_context` | string | Trust classification for the agent: `unknown`, `low`, or `high` |
 | `topic_discovery` | object | Per-agent topic discovery configuration |
 | `sentiment_analysis` | object | Per-agent post-call sentiment analysis configuration |
+| `alerting` | object or null | Per-agent monitor thresholds, auto-resolution timing, and webhook notification settings |
 
 ### auth
 
@@ -313,6 +318,7 @@ Use `platform_settings.guardrails` to configure built-in safety controls for use
 | `model` | string | LLM model used for custom guardrail evaluation, such as `gemini-2.5-flash-lite`, `claude-sonnet-4-6`, or `gpt-5.4-mini`. |
 | `history_message_count` | integer | Number of recent customer messages to include in guardrail history; `0` includes none. |
 | `trigger_action` | object | Action when triggered, such as retrying with feedback or ending the call. |
+| `evaluate_full_response_only` | bool | Evaluate the complete non-TTS response once. Requires `execution_mode` set to `blocking`; defaults to `false`. |
 
 **focus / prompt_injection:**
 
@@ -377,6 +383,7 @@ Use `platform_settings.widget` to configure the hosted widget and shareable page
 | `show_conversation_id` | bool | `true` | Whether to show the conversation ID after disconnection |
 | `strip_audio_tags` | bool | `true` | Whether to strip audio markup from messages |
 | `syntax_highlight_theme` | string | auto | Code block syntax highlighting theme (`light` or `dark`); omit it to let the widget auto-detect |
+| `show_resize_button` | bool | `true` | Whether to show the expand and collapse control in the widget header |
 
 ### conversation (inside conversation_config)
 
@@ -400,7 +407,8 @@ and must be enabled in `client_events`.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `enabled` | bool | `true` | Allows end users to attach images or PDFs in chat when the selected LLM supports multimodal input |
-| `max_files_per_conversation` | int | `10` | Maximum number of uploaded files allowed in a single conversation |
+| `max_files_in_memory` | int | `10` | Number of most-recent files kept in memory (1-30); older files are summarized and released |
+| `max_files_per_conversation` | int | `10` | Total upload limit; use `-1` for no limit or a value at least as large as `max_files_in_memory` |
 
 **background_sound:**
 
@@ -408,8 +416,8 @@ and must be enabled in `client_events`.
 |-------|------|---------|-------------|
 | `source_type` | string | - | Background sound source type; use `preset` for built-in sounds |
 | `source_id` | string | - | Preset sound ID, such as `office1`, `office2`, `restaurant`, `city`, `typing`, or `elevator1`-`elevator4` |
-| `volume` | number | `0.6` | Playback volume from `0.01` to `1.0` |
-| `crossfade_loop` | bool | `false` | Crossfade loop boundaries to avoid audible pops |
+| `volume` | number | `0.15` | Playback volume from `0.01` to `1.0` |
+| `crossfade_loop` | bool | `true` | Crossfade loop boundaries to avoid audible pops |
 
 ## Additional Top-Level Fields
 
@@ -450,6 +458,20 @@ agent = client.conversational_ai.agents.create(
 
 Set `conversation_config.conversation.source_attribution` to `true` when you want the agent to
 report which knowledge base sources it used in responses.
+
+### Knowledge Base Management
+
+Use a [crawl job](https://elevenlabs.io/docs/api-reference/knowledge-base/create-crawl-job) to
+ingest a website into the knowledge base. A crawl requires a `url` and can control crawl depth,
+page count, URL matching, sitemaps, folder placement, and automatic synchronization. List,
+inspect, or cancel crawl jobs while ingestion is running.
+
+Before deleting several documents or folders, use the
+[bulk dependency check](https://elevenlabs.io/docs/api-reference/knowledge-base/dependent-agents-multiple)
+to find affected agents. The
+[bulk delete endpoint](https://elevenlabs.io/docs/api-reference/knowledge-base/bulk-delete)
+returns an independent result for each document ID. Use `force` only when you intend to remove
+agent dependencies and recursively delete the contents of non-empty folders.
 
 ## CRUD Operations
 
@@ -503,7 +525,7 @@ const agents = await client.conversationalAi.agents.list();
 ```
 
 ```bash
-curl -X GET "https://api.elevenlabs.io/v1/convai/agents" -H "xi-api-key: $ELEVENLABS_API_KEY"
+elevenlabs agents list
 ```
 
 ### SDK: Manage Conversation Tags
@@ -543,6 +565,13 @@ const conversations = await client.conversationalAi.conversations.list({
 });
 ```
 
+Conversation listing and message search can filter by `visited_agent_ids` and
+`visited_agent_branch_ids`. List conversations also accepts `parent_conversation_id`,
+`guardrail_types`, and `custom_guardrail_names` to narrow results by hierarchy or triggered
+guardrails. For a listing that includes selected analysis results, pass `data_collection_ids` or
+`evaluation_criteria_ids`; matching summaries include `data_collection_results` or
+`evaluation_criteria_results`.
+
 ### SDK: Get Agent
 
 ```python
@@ -554,7 +583,7 @@ const agent = await client.conversationalAi.agents.get("your-agent-id");
 ```
 
 ```bash
-curl -X GET "https://api.elevenlabs.io/v1/convai/agents/your-agent-id" -H "xi-api-key: $ELEVENLABS_API_KEY"
+elevenlabs agents get --agent-id "your-agent-id"
 ```
 
 ### SDK: Update Agent
@@ -598,11 +627,9 @@ await client.conversationalAi.agents.update("id", {
 });
 ```
 
-**cURL:**
+**CLI:**
 ```bash
-curl -X PATCH "https://api.elevenlabs.io/v1/convai/agents/your-agent-id" \
-  -H "xi-api-key: $ELEVENLABS_API_KEY" -H "Content-Type: application/json" \
-  -d '{"name": "New Name"}'
+elevenlabs agents update --agent-id "your-agent-id" --json '{"name": "New Name"}'
 ```
 
 #### Updatable Fields
@@ -614,9 +641,9 @@ curl -X PATCH "https://api.elevenlabs.io/v1/convai/agents/your-agent-id" \
 | `conversation_config.agent.prompt` | `prompt`, `llm`, `temperature`, `max_tokens`, `reasoning_effort`, `tools`, `built_in_tools`, `knowledge_base`, `custom_llm`, `timezone` |
 | `conversation_config.tts` | `voice_id`, `model_id`, `stability`, `similarity_boost`, `speed`, `expressive_mode`, `enable_phoneme_tags` |
 | `conversation_config.asr` | `quality`, `provider`, `keywords`, `user_input_audio_format` |
-| `conversation_config.turn` | `turn_timeout`, `turn_eagerness`, `silence_end_call_timeout`, `turn_model`, `interruption_ignore_terms`, `transcribe_on_disabled_interruptions`, `soft_timeout_config` |
+| `conversation_config.turn` | `turn_timeout`, `turn_eagerness`, `silence_end_call_timeout`, `turn_model`, `interruption_ignore_terms`, `interruption_ignore_term_languages`, `merge_with_default_ignore_terms`, `transcribe_on_disabled_interruptions`, `soft_timeout_config` |
 | `conversation_config.conversation` | `max_duration_seconds`, `text_only`, `monitoring_enabled`, `background_sound` |
-| `platform_settings` | `summary_language`, `auto_translate_transcript_to_app_language`, `guardrails`, `privacy`, `topic_discovery`, `sentiment_analysis` |
+| `platform_settings` | `summary_language`, `auto_translate_transcript_to_app_language`, `analysis_items`, `guardrails`, `privacy`, `topic_discovery`, `sentiment_analysis`, `alerting` |
 | `platform_settings.widget` | `dismissible`, `show_agent_status`, `show_conversation_id`, `strip_audio_tags`, `syntax_highlight_theme` |
 | `platform_settings.auth` | `enable_auth`, `allowlist` |
 | `platform_settings.call_limits` | `agent_concurrency_limit`, `daily_limit`, `bursting_enabled` |
@@ -632,7 +659,7 @@ await client.conversationalAi.agents.delete("your-agent-id");
 ```
 
 ```bash
-curl -X DELETE "https://api.elevenlabs.io/v1/convai/agents/your-agent-id" -H "xi-api-key: $ELEVENLABS_API_KEY"
+elevenlabs agents delete --agent-id "your-agent-id"
 ```
 
 ## CI/CD Integration

@@ -1,9 +1,44 @@
 # Installation
 
+## CLI (Recommended)
+
+Install the ElevenLabs CLI:
+
+```bash
+# npm (any platform with Node.js)
+npm install -g @elevenlabs/cli
+```
+
+```bash
+# macOS / Linux (Homebrew)
+brew install elevenlabs/tap/elevenlabs
+```
+
+```powershell
+# Windows (Scoop)
+scoop bucket add elevenlabs https://github.com/elevenlabs/scoop-bucket
+scoop install elevenlabs
+```
+
+```bash
+# Shell installer (macOS / Linux)
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/elevenlabs/cli/releases/latest/download/elevenlabs-cli-installer.sh | sh
+```
+
+Authenticate with either method:
+
+```bash
+# Option 1: Environment variable (picked up automatically)
+export ELEVENLABS_API_KEY="your-api-key"
+
+# Option 2: OAuth login (stores credentials in the OS keyring)
+elevenlabs auth login
+```
+
 ## JavaScript / TypeScript
 
 ```bash
-npm install @elevenlabs/elevenlabs-js
+npm install @elevenlabs/elevenlabs-js@latest
 ```
 
 > **Important:** Always use `@elevenlabs/elevenlabs-js`. The old `elevenlabs` npm package (v1.x) is deprecated and should not be used.
@@ -28,22 +63,24 @@ If you have old packages installed, remove them:
 npm uninstall elevenlabs
 
 # Install the current packages
-npm install @elevenlabs/elevenlabs-js
+npm install @elevenlabs/elevenlabs-js@latest
+
+# For client-side/browser usage, also install:
+npm install @elevenlabs/client@latest  # Browser client
+npm install @elevenlabs/react@latest   # React hooks
 ```
 
 **Import changes:**
 ```javascript
-// OLD (deprecated)
-import { ElevenLabsClient } from "elevenlabs";
-
-// NEW (current)
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
+import { Scribe } from "@elevenlabs/client";
+import { useScribe } from "@elevenlabs/react";
 ```
 
 ## Python
 
 ```bash
-pip install elevenlabs
+pip install --upgrade elevenlabs
 ```
 
 ```python
@@ -57,21 +94,12 @@ client = ElevenLabs()
 client = ElevenLabs(api_key="your-api-key")
 ```
 
-## cURL / REST API
+## CLI Usage
 
-Set your API key as an environment variable:
-
-```bash
-export ELEVENLABS_API_KEY="your-api-key"
-```
-
-Include in requests via the `xi-api-key` header:
+The CLI reads `ELEVENLABS_API_KEY` automatically — no key flags or headers needed:
 
 ```bash
-curl -X POST "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}" \
-  -H "xi-api-key: $ELEVENLABS_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Hello world", "model_id": "eleven_multilingual_v2"}'
+elevenlabs speech-to-text convert --file audio.mp3 --model-id scribe_v2
 ```
 
 ## Getting an API Key
