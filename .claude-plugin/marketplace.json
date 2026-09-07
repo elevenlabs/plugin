@@ -4,7 +4,7 @@
     "name": "ElevenLabs",
     "email": "support@elevenlabs.io"
   },
-  "description": "ElevenLabs voice AI plugin — text-to-speech, voice agents, and agent management via the ElevenLabs hosted MCP server.",
+  "description": "ElevenLabs voice AI plugin — text-to-speech, voice agents, agent management via the ElevenLabs hosted MCP server, and Architect skills for building and iterating on ElevenLabs agents.",
   "plugins": [
     {
       "name": "elevenlabs",

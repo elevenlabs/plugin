@@ -1,0 +1,219 @@
+{
+  "name": "Northwind Support (example)",
+  "tags": ["example", "reference"],
+
+  "conversation_config": {
+    "asr": {
+      "quality": "high",
+      "provider": "scribe_realtime",
+      "user_input_audio_format": "ulaw_8000",
+      "keywords": ["Northwind", "Contoso", "Fabrikam"]
+    },
+
+    "turn": {
+      "turn_timeout": 8.0,
+      "initial_wait_time": 2.0,
+      "silence_end_call_timeout": 45,
+      "mode": "turn",
+      "turn_eagerness": "normal",
+      "spelling_patience": "auto",
+      "speculative_turn": true,
+      "retranscribe_on_turn_timeout": false,
+      "turn_model": "turn_v3",
+      "interruption_ignore_terms": ["okay", "mhm", "right"],
+      "interruption_ignore_term_languages": ["en"],
+      "merge_with_default_ignore_terms": true,
+      "transcribe_on_disabled_interruptions": false
+    },
+
+    "tts": {
+      "model_id": "eleven_v3_conversational",
+      "voice_id": "cjVigY5qzO86Huf0OWal",
+      "expressive_mode": true,
+      "suggested_audio_tags": [
+        { "tag": "warmly", "description": "Greeting and acknowledgements" },
+        { "tag": "reassuring", "description": "Settling a worried caller" }
+      ],
+      "agent_output_audio_format": "ulaw_8000",
+      "optimize_streaming_latency": 3,
+      "stability": 0.5,
+      "speed": 1.0,
+      "similarity_boost": 0.8,
+      "text_normalisation_type": "elevenlabs",
+      "enable_phoneme_tags": false
+    },
+
+    "conversation": {
+      "text_only": false,
+      "max_duration_seconds": 600,
+      "client_events": ["conversation_initiation_metadata", "audio", "agent_response"],
+      "monitoring_enabled": true,
+      "background_sound": {
+        "source_type": "preset",
+        "source_id": "office2",
+        "volume": 0.1,
+        "crossfade_loop": true
+      },
+      "source_attribution": false
+    },
+
+    "vad": { "background_voice_detection": true },
+
+    "agent": {
+      "first_message": "Northwind support, this is Marlow. How can I help?",
+      "language": "en",
+      "hinglish_mode": false,
+      "disable_first_message_interruptions": false,
+      "max_conversation_duration_message": "I'm going to have to let you go, but do call back and we'll pick this up.",
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {
+          "tenant_slug": "demo-tenant",
+          "account_tier": "unknown"
+        }
+      },
+
+      "prompt": {
+        "prompt": "# Personality\nYou are Marlow, a support agent at Northwind.\n\n# Tone\nWarm, brief, one question at a time.\n\n# Guardrails\nNever quote a price you have not looked up.",
+        "llm": "gpt-5.1",
+        "reasoning_effort": "low",
+        "temperature": 0.2,
+        "max_tokens": -1,
+        "timezone": "Europe/London",
+        "cascade_timeout_seconds": 4.0,
+        "ignore_default_personality": false,
+        "enable_reasoning_summary": false,
+
+        "tool_ids": ["tool_exampleplaceholder00000001"],
+        "mcp_server_ids": [],
+        "native_mcp_server_ids": [],
+
+        "knowledge_base": [
+          { "type": "file", "name": "returns-policy.pdf", "id": "doc_exampleplaceholder000001", "usage_mode": "auto" }
+        ],
+
+        "rag": {
+          "enabled": true,
+          "embedding_model": "e5_mistral_7b_instruct",
+          "max_vector_distance": 0.6,
+          "max_documents_length": 50000,
+          "max_retrieved_rag_chunks_count": 20
+        }
+      }
+    }
+  },
+
+  "workflow": {
+    "prevent_subagent_loops": false,
+    "nodes": {
+      "start_node": {
+        "type": "start",
+        "position": { "x": 0.0, "y": 0.0 },
+        "edge_order": ["edge_start_to_triage"]
+      },
+      "triage": {
+        "type": "override_agent",
+        "label": "Triage",
+        "position": { "x": 240.0, "y": 0.0 },
+        "edge_order": ["edge_triage_to_lookup"],
+        "additional_prompt": "Find out whether this is about an order, a return, or something else.",
+        "additional_tool_ids": [],
+        "entry_behavior": "generate_immediately"
+      },
+      "lookup": {
+        "type": "tool",
+        "position": { "x": 480.0, "y": 0.0 },
+        "edge_order": ["edge_lookup_to_done"],
+        "tools": [{ "tool_id": "tool_exampleplaceholder00000001" }]
+      },
+      "done": {
+        "type": "end",
+        "position": { "x": 720.0, "y": 0.0 },
+        "edge_order": []
+      }
+    },
+    "edges": {
+      "edge_start_to_triage": {
+        "source": "start_node",
+        "target": "triage",
+        "forward_condition": { "type": "unconditional", "label": "begin" }
+      },
+      "edge_triage_to_lookup": {
+        "source": "triage",
+        "target": "lookup",
+        "forward_condition": {
+          "type": "llm",
+          "label": "caller named an order",
+          "condition": "The caller has given an order number or a confirmation code."
+        }
+      },
+      "edge_lookup_to_done": {
+        "source": "lookup",
+        "target": "done",
+        "forward_condition": { "type": "unconditional", "label": "finished" }
+      }
+    }
+  },
+
+  "platform_settings": {
+    "evaluation": {
+      "criteria": [
+        {
+          "id": "resolved_without_transfer",
+          "name": "Resolved without transfer",
+          "type": "prompt",
+          "conversation_goal_prompt": "Mark SUCCESS if the caller's question was answered and no transfer to a human occurred. Mark FAILURE if the agent transferred, or ended the call with the question unanswered.",
+          "use_knowledge_base": false
+        }
+      ]
+    },
+
+    "data_collection": {
+      "order_number": {
+        "type": "string",
+        "description": "The order number the caller gave, digits only, or empty if they never gave one."
+      },
+      "issue_category": {
+        "type": "string",
+        "description": "One of: delivery, return, billing, other."
+      }
+    },
+
+    "privacy": {
+      "record_voice": true,
+      "retention_days": 30,
+      "delete_transcript_and_pii": false,
+      "delete_audio": false,
+      "apply_to_existing_conversations": false,
+      "zero_retention_mode": false
+    },
+
+    "call_limits": {
+      "agent_concurrency_limit": -1,
+      "daily_limit": 100000,
+      "bursting_enabled": true
+    },
+
+    "auth": {
+      "enable_auth": false,
+      "allowlist": [],
+      "require_origin_header": false
+    },
+
+    "guardrails": {
+      "version": "1",
+      "focus": { "is_enabled": true },
+      "prompt_injection": { "is_enabled": true }
+    },
+
+    "overrides": {
+      "conversation_config_override": {
+        "agent": { "first_message": true, "language": true },
+        "tts": { "voice_id": true }
+      },
+      "custom_llm_extra_body": false,
+      "enable_conversation_initiation_client_data_from_webhook": true,
+      "enable_starting_workflow_node_id_from_client": false,
+      "enable_procedure_ids_from_client": false
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "type": "webhook",
+  "name": "lookup_reservation",
+  "description": "Look up an existing reservation by its confirmation code. Call this before offering to change or cancel a booking, never after.",
+
+  "response_timeout_secs": 20,
+  "disable_interruptions": false,
+  "interruption_mode": "allow",
+  "force_pre_tool_speech": false,
+  "pre_tool_speech": "auto",
+  "tool_call_sound": "typing",
+  "tool_call_sound_behavior": "auto",
+  "tool_error_handling_mode": "auto",
+  "execution_mode": "immediate",
+
+  "dynamic_variables": {
+    "dynamic_variable_placeholders": {
+      "tenant_slug": "demo-tenant"
+    }
+  },
+
+  "assignments": [
+    {
+      "source": "response",
+      "dynamic_variable": "reservation_status",
+      "value_path": "reservation.status"
+    }
+  ],
+
+  "api_schema": {
+    "url": "https://api.example.com/v2/tenants/{tenant_slug}/reservations",
+    "method": "POST",
+    "content_type": "application/json",
+    "response_filter": {
+      "mode": "allow",
+      "filters": ["reservation.status"],
+      "content_type": "application/json"
+    },
+
+    "request_headers": {
+      "Authorization": { "secret_id": "sec_exampleplaceholder000000" },
+      "X-Request-Source": "elevenlabs-agent",
+      "X-Session-Token": { "variable_name": "session_token" }
+    },
+
+    "path_params_schema": {
+      "tenant_slug": {
+        "type": "string",
+        "dynamic_variable": "tenant_slug"
+      }
+    },
+
+    "query_params_schema": {
+      "properties": {
+        "include_cancelled": {
+          "type": "boolean",
+          "constant_value": "false"
+        }
+      },
+      "required": []
+    },
+
+    "request_body_schema": {
+      "type": "object",
+      "description": "The reservation lookup request.",
+      "properties": {
+        "confirmation_code": {
+          "type": "string",
+          "description": "The booking reference the guest reads out, six characters, letters and digits."
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["phone", "web", "sms"],
+          "constant_value": "phone"
+        },
+        "conversation_id": {
+          "type": "string",
+          "is_system_provided": true
+        },
+        "caller_number": {
+          "type": "string",
+          "dynamic_variable": "system__caller_id"
+        }
+      },
+      "required": ["confirmation_code"],
+      "required_constraints": {
+        "any_of": [{ "required": ["confirmation_code"] }]
+      }
+    },
+
+    "response_body_schema": {
+      "type": "object",
+      "description": "The reservation, or an empty result when the code is unknown.",
+      "properties": {
+        "reservation": {
+          "type": "object",
+          "description": "The matched reservation.",
+          "properties": {
+            "status": {
+              "type": "string",
+              "description": "One of held, confirmed, cancelled."
+            }
+          }
+        }
+      }
+    }
+  }
+}
