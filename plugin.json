@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "elevenlabs",
-  "version": "0.3.0",
-  "description": "ElevenLabs voice AI — text-to-speech, voice agents, and speech engine skills, plus agent management via the ElevenLabs hosted MCP server.",
+  "version": "0.4.0",
+  "description": "ElevenLabs voice AI — text-to-speech, voice agents, and speech engine skills, agent management via the ElevenLabs hosted MCP server, plus Architect skills for building and iterating on ElevenLabs agents.",
   "author": {
     "name": "ElevenLabs",
     "email": "support@elevenlabs.io",

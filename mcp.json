@@ -3,7 +3,7 @@
   "mcpServers": {
     "elevenlabs": {
       "type": "streamable-http",
-      "url": "https://api.elevenlabs.io/v1/mcp"
+      "url": "https://api.us.elevenlabs.io/v1/mcp"
     }
   }
 }
