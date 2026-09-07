@@ -56,10 +56,10 @@ Three traps when resolving:
   "tool_mock_config": {
     "mocking_strategy": "all",
     "fallback_strategy": "raise_error",
-    "mocked_tool_ids": ["tool_1101kdbpjt1vep78mhe93zj66g4x"]
+    "mocked_tool_ids": ["tool_exampleplaceholder00000001"]
   },
   "tool_mock_overrides": {
-    "tool_1101kdbpjt1vep78mhe93zj66g4x": [
+    "tool_exampleplaceholder00000001": [
       {"parameter_conditions": [], "mock_result": "{\"result\":\"ok\"}", "is_error": false}
     ]
   }
