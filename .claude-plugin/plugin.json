@@ -14,5 +14,6 @@
   "license": "MIT",
   "keywords": ["elevenlabs", "text-to-speech", "voice", "audio", "ai", "tts", "voice-agents", "mcp"],
   "skills": ["./skills/general", "./skills/mcp", "./architect/skills"],
+  "commands": ["./architect/commands"],
   "mcpServers": "./mcp.json"
 }

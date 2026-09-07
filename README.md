@@ -67,6 +67,8 @@ Architect skills:
 | [code-tools](architect/skills/code-tools/SKILL.md) | Generate JavaScript/TypeScript modules for ElevenLabs code tools |
 | [fix-agent-qa-ticket](architect/skills/fix-agent-qa-ticket/SKILL.md) | Fix a QA triage ticket end to end with a verified, branch-scoped fix |
 
+Architect also ships one command: [/thermo-nuclear-agent-triage-burndown](architect/commands/thermo-nuclear-agent-triage-burndown.md), which burns down an agent's whole conversation-triage queue — cluster tickets by root cause, fix each cluster, then comment on and resolve every ticket.
+
 ### MCP Server
 
 The [ElevenLabs hosted MCP server](https://api.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json).
