@@ -5,8 +5,38 @@ Make outbound phone calls using your ElevenLabs agent via Twilio or Exotel integ
 ## Prerequisites
 
 1. A configured ElevenLabs agent
-2. A Twilio or Exotel phone number linked to your agent (obtain `agent_phone_number_id` from the ElevenLabs dashboard)
+2. A Twilio or Exotel phone number linked to your agent
 3. Your ElevenLabs API key
+
+## Find a linked phone number
+
+List phone numbers that support outbound calls and filter by the assigned agent:
+
+### Python
+
+```python
+phone_numbers = client.conversational_ai.phone_numbers.list_v_2(
+    agent_id="your-agent-id",
+    supports_outbound=True,
+    page_size=100,
+)
+```
+
+### JavaScript
+
+```javascript
+const phoneNumbers = await client.conversationalAi.phoneNumbers.listV2({
+  agentId: "your-agent-id",
+  supportsOutbound: true,
+  pageSize: 100,
+});
+```
+
+Use the returned `phone_number_id` (`phoneNumberId` in JavaScript) as
+`agent_phone_number_id`. When `has_more` (`hasMore`) is true, pass `next_cursor`
+(`nextCursor`) as `cursor` to retrieve the next page. See the
+[phone number list API](https://elevenlabs.io/docs/api-reference/phone-numbers/list-v-2)
+for additional filters.
 
 ## Basic Usage
 
@@ -146,6 +176,13 @@ const response = await client.conversationalAi.twilio.outboundCall({
 | Option | Type | Description |
 |--------|------|-------------|
 | `ringing_timeout_secs` | integer | How long to ring the recipient before giving up (default: `60`) |
+| `twilio_machine_detection` | object or null | Twilio answering-machine detection settings. Omit or set to `null` to disable. Ignored for non-Twilio providers and inbound calls. |
+
+Set `twilio_machine_detection.mode` to `enable` for an early human-or-machine verdict or
+`detect_message_end` to wait for the end of a voicemail greeting. The default is `enable`.
+Detection runs asynchronously. Its verdict arrives through the separate
+`answering_machine_detection` webhook event, which must be enabled in the workspace or agent
+webhook settings.
 
 ### Dynamic Variables
 
