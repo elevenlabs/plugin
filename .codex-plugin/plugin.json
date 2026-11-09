@@ -12,12 +12,12 @@
   "license": "MIT",
   "keywords": ["elevenlabs", "text-to-speech", "voice", "audio", "ai", "tts", "voice-agents", "mcp"],
   "skills": ["./skills/general", "./skills/mcp", "./architect/skills"],
-  "mcpServers": "./mcp.json",
+  "mcpServers": "./.codex-plugin/mcp.json",
   "interface": {
     "displayName": "ElevenLabs",
     "shortDescription": "Voice AI: TTS, voice agents, and hosted MCP agent management.",
     "developerName": "ElevenLabs",
     "websiteURL": "https://elevenlabs.io",
-    "logo": "assets/logo.png"
+    "logo": "./assets/logo.png"
   }
 }
