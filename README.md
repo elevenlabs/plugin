@@ -17,6 +17,8 @@ Skills live in three trees:
 | [agents](skills/general/agents/SKILL.md) | Build real-time voice AI agents and assistants |
 | [dubbing](skills/general/dubbing/SKILL.md) | Dub audio and video into other languages, preserving the original speakers' voices |
 | [music](skills/general/music/SKILL.md) | Generate instrumental tracks, songs with lyrics, background music, and jingles |
+| [onboarding](skills/general/onboarding/SKILL.md) | Add ElevenLabs to a project from scratch: sign-in, API key, SDK, and a first request |
+| [realtime](skills/general/realtime/SKILL.md) | Run agents on ElevenLabs Realtime models, or migrate an OpenAI Realtime voice app to them |
 | [setup-api-key](skills/general/setup-api-key/SKILL.md) | Guide users through configuring an ElevenLabs API key |
 | [sound-effects](skills/general/sound-effects/SKILL.md) | Generate sound effects and audio textures from text descriptions |
 | [speech-engine](skills/general/speech-engine/SKILL.md) | Add real-time voice conversations to your own agent runtime |
@@ -71,7 +73,7 @@ Architect also ships one command: [/thermo-nuclear-agent-triage-burndown](archit
 
 ### MCP Server
 
-The [ElevenLabs hosted MCP server](https://api.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json).
+The [ElevenLabs hosted MCP server](https://api.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json) for Cursor, [.claude-plugin/mcp.json](.claude-plugin/mcp.json) for Claude Code, and [.codex-plugin/mcp.json](.codex-plugin/mcp.json) for Codex.
 
 ## Installation
 
