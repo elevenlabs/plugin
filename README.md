@@ -19,7 +19,7 @@ Skills live in three trees:
 | [music](skills/general/music/SKILL.md) | Generate instrumental tracks, songs with lyrics, background music, and jingles |
 | [onboarding](skills/general/onboarding/SKILL.md) | Add ElevenLabs to a project from scratch: sign-in, API key, SDK, and a first request |
 | [realtime](skills/general/realtime/SKILL.md) | Run agents on ElevenLabs Realtime models, or migrate an OpenAI Realtime voice app to them |
-| [setup-api-key](skills/general/setup-api-key/SKILL.md) | Guide users through configuring an ElevenLabs API key |
+| [setup-api-key](skills/general/setup-api-key/SKILL.md) | Fix or hand-configure an existing ElevenLabs API key |
 | [sound-effects](skills/general/sound-effects/SKILL.md) | Generate sound effects and audio textures from text descriptions |
 | [speech-engine](skills/general/speech-engine/SKILL.md) | Add real-time voice conversations to your own agent runtime |
 | [speech-to-text](skills/general/speech-to-text/SKILL.md) | Transcribe audio to text with Scribe v2 |
