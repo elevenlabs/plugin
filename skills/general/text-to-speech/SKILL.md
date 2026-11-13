@@ -10,7 +10,7 @@ metadata: {"openclaw": {"requires": {"env": ["ELEVENLABS_API_KEY"]}, "primaryEnv
 
 Generate natural speech from text - supports 90+ languages, multiple models for quality vs latency tradeoffs. Examples default to `eleven_v4`, the latest and highest-quality model.
 
-> **Setup:** See [Installation Guide](references/installation.md). For JavaScript, use `@elevenlabs/*` packages only.
+> **Setup, before writing any code:** if `ELEVENLABS_API_KEY` isn't set for this project, run `npx -y @elevenlabs/cli@latest onboard init` from the app's folder first and follow what it prints: it signs the user in and stores a key for the project, so nobody copies one by hand. Otherwise see the [Installation Guide](references/installation.md). For JavaScript, use `@elevenlabs/*` packages only.
 
 ## Quick Start
 
@@ -94,12 +94,14 @@ Use pre-made voices or create custom voices in the dashboard.
 - `JBFqnCBsd6RMkjVDRZzb` - George (male, narrative)
 - `EXAVITQu4vr4xnSDxMaL` - Sarah (female, soft)
 - `onwK4e9ZLuTAKqWW03F9` - Daniel (male, authoritative)
-- `XB0fDUnXU5powFXDhCwa` - Charlotte (female, conversational)
+
+**Pick a voice the account's plan can use.** Free plans can use pre-made voices through the API, but not Voice Library voices: those fail with a `402` (`paid_plan_required`). Use George unless the user asks for something else. Do not use a voice ID from memory. Tutorials still use voices that have since been retired (Rachel, Charlotte, Josh and others), and those fail the same way on a free plan. To choose another voice, list the pre-made ones:
 
 ```python
 voices = client.voices.get_all()
 for voice in voices.voices:
-    print(f"{voice.voice_id}: {voice.name}")
+    if voice.category == "premade":
+        print(f"{voice.voice_id}: {voice.name}")
 ```
 
 ## Voice Settings
@@ -155,6 +157,42 @@ audio = client.text_to_speech.convert(
     apply_text_normalization="on"
 )
 ```
+
+## Audio Effects
+
+Use `audio_effects` to process the generated audio with a filter preset, perceived distance, a reverb environment, a looped background noise bed, and stereo panning. Effects do not change the cost of a request.
+
+| Field | Range | Description |
+|-------|-------|-------------|
+| `filter_preset_id` | Catalog ID | Filter that colors the voice, such as `phone` or `old_radio` |
+| `distance` | 0-1 (default 0) | How far the speaker sounds from the microphone |
+| `environment_id` | Catalog ID | Reverb environment, such as `small_room` or `hall` |
+| `send_level` | 0-1 (default 1) | How much of the voice feeds the reverb; 0 turns reverb off |
+| `background_noise_id` | Catalog ID | Background noise looped under the voice, such as `cafe` or `keyboard` |
+| `pan` | -1 to 1 (default 0) | Stereo position of the voice, from hard left to hard right |
+
+List valid filter preset, environment, and background noise IDs with the catalog endpoint (`GET /v1/audio-effects/catalog`):
+
+```python
+from elevenlabs import EffectsSpecInput
+
+catalog = client.audio_effects.get_catalog()
+for environment in catalog.environments:
+    print(f"{environment.environment_id}: {environment.name}")
+
+audio = client.text_to_speech.convert(
+    text="Welcome to the concert hall.",
+    voice_id="JBFqnCBsd6RMkjVDRZzb",
+    model_id="eleven_v4",
+    audio_effects=EffectsSpecInput(
+        environment_id="hall",
+        distance=0.3,
+        pan=-0.5,
+    )
+)
+```
+
+Reverb and non-zero `pan` produce stereo audio and are rejected for `ulaw_*`, `alaw_*`, and `pcm_*` output formats. Unknown effect IDs return a 404 error.
 
 ## Request Stitching
 
