@@ -83,9 +83,9 @@ Run this in a terminal:
 npx -y @elevenlabs/cli@latest setup --yes
 ```
 
-It installs the plugin into Claude Code and Codex, whichever you have, and prints the plugin's link in the Cursor marketplace. Run it again to update. In Claude Code you can also ask Claude to run it for you; in the Claude desktop app, that is the way to do it.
+It installs the plugin into Claude Code and Codex, whichever you have, and, if you use Cursor, prints the plugin's link in the Cursor marketplace. In Claude Code you can also ask Claude to run it for you; in the Claude desktop app, that is the way to do it.
 
-Then restart your agent and sign in to the MCP server with your ElevenLabs account: run `/mcp` in Claude Code, or `codex mcp login elevenlabs` for Codex.
+Then restart your agent and sign in to the MCP server with your ElevenLabs account: run `/mcp` in Claude Code, or `codex mcp login elevenlabs` in a terminal for Codex.
 
 Or install it by hand:
 
