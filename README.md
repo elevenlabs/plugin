@@ -87,7 +87,7 @@ It installs the plugin into Claude Code and Codex, whichever you have, and, if y
 
 Then restart your agent and sign in to the MCP server with your ElevenLabs account: run `/mcp` in Claude Code, or `codex mcp login elevenlabs` in a terminal for Codex.
 
-Or install it by hand:
+Or install it by hand, then restart and sign in the same way:
 
 ### Cursor
 
@@ -119,4 +119,5 @@ npx skills add elevenlabs/skills
 ## Requirements
 
 - An [ElevenLabs](https://elevenlabs.io) account — you'll sign in via OAuth when your agent connects to the MCP server
+- [Node.js](https://nodejs.org), for the `npx` setup command
 - Internet access
