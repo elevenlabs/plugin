@@ -23,7 +23,7 @@ Skills live in three trees:
 | [sound-effects](skills/general/sound-effects/SKILL.md) | Generate sound effects and audio textures from text descriptions |
 | [speech-engine](skills/general/speech-engine/SKILL.md) | Add real-time voice conversations to your own agent runtime |
 | [speech-to-text](skills/general/speech-to-text/SKILL.md) | Transcribe audio to text with Scribe v2 |
-| [text-to-speech](skills/general/text-to-speech/SKILL.md) | Convert text to natural speech in 70+ languages |
+| [text-to-speech](skills/general/text-to-speech/SKILL.md) | Convert text to natural speech in 90+ languages |
 | [voice-changer](skills/general/voice-changer/SKILL.md) | Transform a recording into a different voice, preserving emotion and timing |
 | [voice-isolator](skills/general/voice-isolator/SKILL.md) | Remove background noise and isolate speech from audio |
 
@@ -73,7 +73,7 @@ Architect also ships one command: [/thermo-nuclear-agent-triage-burndown](archit
 
 ### MCP Server
 
-The [ElevenLabs hosted MCP server](https://api.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json) for Cursor, [.claude-plugin/mcp.json](.claude-plugin/mcp.json) for Claude Code, and [.codex-plugin/mcp.json](.codex-plugin/mcp.json) for Codex.
+The [ElevenLabs hosted MCP server](https://api.us.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json) for Cursor, [.claude-plugin/mcp.json](.claude-plugin/mcp.json) for Claude Code, and [.codex-plugin/mcp.json](.codex-plugin/mcp.json) for Codex.
 
 ## Installation
 
