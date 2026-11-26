@@ -89,7 +89,7 @@ The agent installs the plugin with its own commands and opens the sign-in to the
 
 ### Install manually
 
-Follow [INSTALL.md](INSTALL.md). It has the steps for Claude Code, Codex and Cursor, and for installing only the skills.
+Follow [INSTALL.md](INSTALL.md). It has the steps for Claude Code, Codex and Cursor, and for installing only the skills. Inside Claude Code, that is `/plugin marketplace add elevenlabs/plugin`, then `/plugin install elevenlabs@elevenlabs`, then `/mcp` to sign in.
 
 To work on the plugin itself, load it from a checkout: `claude --plugin-dir /path/to/plugin`
 
