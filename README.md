@@ -88,7 +88,7 @@ Install the ElevenLabs plugin, then start the ElevenLabs MCP sign-in
 so I can approve it in my browser.
 ```
 
-The agent installs the plugin with its own commands and opens the sign-in to the MCP server. Approve it in your browser with your ElevenLabs account. To use the plugin in a session that was already open, run `/reload-plugins` in Claude Code, or start a new session in Codex.
+The agent installs the plugin with its own commands and opens the sign-in to the MCP server. Approve it in your browser with your ElevenLabs account. When it finishes, the agent tells you how to load the plugin in the session you have open.
 
 ### Install manually
 

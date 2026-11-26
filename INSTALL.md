@@ -2,7 +2,7 @@
 
 The ElevenLabs plugin adds the hosted ElevenLabs MCP server and the ElevenLabs skills to a coding agent. Use the section for your agent. The last step signs in to the MCP server with an ElevenLabs account, in the browser.
 
-If you are a coding agent following a setup prompt: use the section for the agent you are, run its terminal commands yourself, and leave the browser sign-in to the user. Then tell them what you installed and how to load it in this session.
+If you are a coding agent following a setup prompt: use the section for the agent you are, run its terminal commands yourself, and leave the browser sign-in to the user. You cannot load the plugin into a session that is already open. Finish by telling the user what you installed and the one step left for them: typing `/reload-plugins` in Claude Code, or starting a new session in Codex.
 
 ## Claude Code
 
