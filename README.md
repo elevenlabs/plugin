@@ -17,11 +17,13 @@ Skills live in three trees:
 | [agents](skills/general/agents/SKILL.md) | Build real-time voice AI agents and assistants |
 | [dubbing](skills/general/dubbing/SKILL.md) | Dub audio and video into other languages, preserving the original speakers' voices |
 | [music](skills/general/music/SKILL.md) | Generate instrumental tracks, songs with lyrics, background music, and jingles |
-| [setup-api-key](skills/general/setup-api-key/SKILL.md) | Guide users through configuring an ElevenLabs API key |
+| [onboarding](skills/general/onboarding/SKILL.md) | Add ElevenLabs to a project from scratch: sign-in, API key, SDK, and a first request |
+| [realtime](skills/general/realtime/SKILL.md) | Run agents on ElevenLabs Realtime models, or migrate an OpenAI Realtime voice app to them |
+| [setup-api-key](skills/general/setup-api-key/SKILL.md) | Fix or hand-configure an existing ElevenLabs API key |
 | [sound-effects](skills/general/sound-effects/SKILL.md) | Generate sound effects and audio textures from text descriptions |
 | [speech-engine](skills/general/speech-engine/SKILL.md) | Add real-time voice conversations to your own agent runtime |
 | [speech-to-text](skills/general/speech-to-text/SKILL.md) | Transcribe audio to text with Scribe v2 |
-| [text-to-speech](skills/general/text-to-speech/SKILL.md) | Convert text to natural speech in 70+ languages |
+| [text-to-speech](skills/general/text-to-speech/SKILL.md) | Convert text to natural speech in 90+ languages |
 | [voice-changer](skills/general/voice-changer/SKILL.md) | Transform a recording into a different voice, preserving emotion and timing |
 | [voice-isolator](skills/general/voice-isolator/SKILL.md) | Remove background noise and isolate speech from audio |
 
@@ -71,36 +73,26 @@ Architect also ships one command: [/thermo-nuclear-agent-triage-burndown](archit
 
 ### MCP Server
 
-The [ElevenLabs hosted MCP server](https://api.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json).
+The [ElevenLabs hosted MCP server](https://api.us.elevenlabs.io/v1/mcp) — no local install, no API key. Your agent authenticates with your ElevenLabs account over OAuth and gets access to agent management (create, update, list, duplicate, delete agents; inspect widget config, links, and knowledge base size; estimate LLM usage) and text-to-speech generation. Configured in [mcp.json](mcp.json) for Cursor, [.claude-plugin/mcp.json](.claude-plugin/mcp.json) for Claude Code, and [.codex-plugin/mcp.json](.codex-plugin/mcp.json) for Codex.
 
 ## Installation
 
-### Cursor
+### Set up with a prompt
 
-Install from the [Cursor marketplace](https://cursor.com/marketplace), or add this repo as a plugin. When Cursor connects to the MCP server, sign in with your ElevenLabs account to complete the OAuth flow.
+Paste this into Claude Code, Codex or another coding agent to install the plugin and sign in:
 
-### Claude Code
-
-```
-/plugin marketplace add elevenlabs/plugin
-/plugin install elevenlabs@elevenlabs
-```
-
-Or install directly for development: `claude --plugin-dir /path/to/plugin`
-
-### Codex
-
-```
-codex plugin marketplace add elevenlabs/plugin
+```text
+Set up ElevenLabs in this coding agent using the guide at
+https://github.com/elevenlabs/plugin/blob/main/INSTALL.md.
+Install the ElevenLabs plugin, then start the ElevenLabs MCP sign-in
+so I can approve it in my browser.
 ```
 
-Then install via `/plugins` in Codex, or invoke skills with `$skill-name`.
+### Install manually
 
-### Skills only (any agent)
+Follow [INSTALL.md](INSTALL.md). It has the steps for Claude Code, Codex and Cursor, and for installing only the skills. Inside Claude Code, that is `/plugin marketplace add elevenlabs/plugin`, then `/plugin install elevenlabs@elevenlabs`, then `/mcp` to sign in.
 
-```bash
-npx skills add elevenlabs/skills
-```
+To work on the plugin itself, load it from a checkout: `claude --plugin-dir /path/to/plugin`
 
 ## Requirements
 

@@ -1,7 +1,7 @@
 {
   "name": "elevenlabs",
   "displayName": "ElevenLabs",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "ElevenLabs voice AI — text-to-speech, voice agents, and speech engine skills, agent management via the ElevenLabs hosted MCP server, plus Architect skills for building and iterating on ElevenLabs agents.",
   "author": {
     "name": "ElevenLabs",

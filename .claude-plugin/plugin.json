@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "elevenlabs",
   "displayName": "ElevenLabs",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "ElevenLabs voice AI — text-to-speech, voice agents, and speech engine skills, agent management via the ElevenLabs hosted MCP server, plus Architect skills for building and iterating on ElevenLabs agents.",
   "author": {
     "name": "ElevenLabs",
@@ -15,5 +15,5 @@
   "keywords": ["elevenlabs", "text-to-speech", "voice", "audio", "ai", "tts", "voice-agents", "mcp"],
   "skills": ["./skills/general", "./skills/mcp", "./architect/skills"],
   "commands": ["./architect/commands"],
-  "mcpServers": "./mcp.json"
+  "mcpServers": "./.claude-plugin/mcp.json"
 }
