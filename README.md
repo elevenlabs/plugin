@@ -82,7 +82,10 @@ The [ElevenLabs hosted MCP server](https://api.us.elevenlabs.io/v1/mcp) — no l
 Paste this into Claude Code, Codex or another coding agent:
 
 ```text
-Set up ElevenLabs in this coding agent using the guide at https://github.com/elevenlabs/plugin/blob/main/INSTALL.md. Install the ElevenLabs plugin, then start the ElevenLabs MCP sign-in so I can approve it in my browser.
+Set up ElevenLabs in this coding agent using the guide at
+https://github.com/elevenlabs/plugin/blob/main/INSTALL.md.
+Install the ElevenLabs plugin, then start the ElevenLabs MCP sign-in
+so I can approve it in my browser.
 ```
 
 The agent installs the plugin with its own commands and opens the sign-in to the MCP server. Approve it in your browser with your ElevenLabs account. To use the plugin in a session that was already open, run `/reload-plugins` in Claude Code, or start a new session in Codex.
