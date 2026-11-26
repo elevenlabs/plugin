@@ -77,53 +77,21 @@ The [ElevenLabs hosted MCP server](https://api.us.elevenlabs.io/v1/mcp) — no l
 
 ## Installation
 
+### Set up with a prompt
+
 Paste this into Claude Code, Codex or another coding agent:
 
 ```text
-Set up ElevenLabs in this coding agent using the guide at https://github.com/elevenlabs/plugin#installation. Install the ElevenLabs plugin, then start the ElevenLabs MCP sign-in so I can approve it in my browser.
+Set up ElevenLabs in this coding agent using the guide at https://github.com/elevenlabs/plugin/blob/main/INSTALL.md. Install the ElevenLabs plugin, then start the ElevenLabs MCP sign-in so I can approve it in my browser.
 ```
 
 The agent installs the plugin with its own commands and opens the sign-in to the MCP server. Approve it in your browser with your ElevenLabs account. To use the plugin in a session that was already open, run `/reload-plugins` in Claude Code, or start a new session in Codex.
 
-### Manual installation
+### Install manually
 
-These are the steps the prompt has your agent follow. You can also run them yourself.
+Follow [INSTALL.md](INSTALL.md). It has the steps for Claude Code, Codex and Cursor, and for installing only the skills.
 
-If you are a coding agent following the prompt: use the section for the agent you are, run its terminal commands yourself, and leave the browser sign-in to the user. Then tell them what you installed and how to load it in this session.
-
-#### Claude Code
-
-```bash
-claude plugin marketplace add elevenlabs/plugin
-claude plugin install elevenlabs@elevenlabs
-claude mcp login plugin:elevenlabs:elevenlabs
-```
-
-The last command opens the sign-in in your browser. Then run `/reload-plugins` in Claude Code, or start a new session.
-
-Inside Claude Code you can use `/plugin marketplace add elevenlabs/plugin` and `/plugin install elevenlabs@elevenlabs` instead, then `/mcp` to sign in.
-
-Or install directly for development: `claude --plugin-dir /path/to/plugin`
-
-#### Codex
-
-```bash
-codex plugin marketplace add elevenlabs/plugin
-codex plugin add elevenlabs@elevenlabs
-codex mcp login elevenlabs
-```
-
-The last command opens the sign-in in your browser. Then start a new Codex session.
-
-#### Cursor
-
-Install from the [Cursor marketplace](https://cursor.com/marketplace), or add this repo as a plugin. When Cursor connects to the MCP server, sign in with your ElevenLabs account to complete the OAuth flow.
-
-#### Skills only (any agent)
-
-```bash
-npx skills add elevenlabs/skills
-```
+To work on the plugin itself, load it from a checkout: `claude --plugin-dir /path/to/plugin`
 
 ## Requirements
 
